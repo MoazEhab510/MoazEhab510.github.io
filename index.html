@@ -574,7 +574,28 @@ body::after {
   font-family: var(--font-pixel);
   font-size: 14px;
   overflow: hidden;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
 }
+
+.project-img::after {
+  content: '⌗ VIEW ON GITHUB';
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.75);
+  color: var(--cyan);
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  text-shadow: 0 0 10px var(--cyan);
+}
+
+.project-img:hover::after { opacity: 1; }
 
 .project-img img {
   width: 100%; height: 100%;
@@ -1019,11 +1040,9 @@ body::after {
 
         <!-- Space Shooter -->
         <div class="project-card">
-          <div class="project-img" id="shooterImgWrap">
-            <img id="shooterImg" src="img/space-shooter.jpg"
-                 onerror="this.style.display='none'"
-                 alt="Space Shooter"/>
-          </div>
+          <a class="project-img" href="https://github.com/MoazEhab510/space-shooter" target="_blank">
+            <img src="img/space-shooter.png" alt="Space Shooter"/>
+          </a>
           <div class="project-title">SPACE SHOOTER</div>
           <p class="project-desc">
             A fast-paced 2D arcade space shooter built with Python and Pygame.
@@ -1118,10 +1137,16 @@ body::after {
         <div class="sec-divider"></div>
 
         <div class="project-card" style="border-left-color: var(--yellow);">
-          <div class="project-img">
-            <img src="img/grafana.png"
-                 onerror="this.style.display='none'"
-                 alt="Grafana Dashboard" style="width:100%; height:100%; object-fit:cover; border-radius:3px;"/>
+          <!-- dual screenshot row -->
+          <div style="display:flex; gap:6px; margin-bottom:12px;">
+            <a class="project-img" href="https://github.com/MoazEhab510/alcohol-marker-sim" target="_blank"
+               style="margin-bottom:0; flex:1;">
+              <img src="img/grafana.png" alt="Grafana Dashboard"/>
+            </a>
+            <a class="project-img" href="https://github.com/MoazEhab510/alcohol-marker-sim" target="_blank"
+               style="margin-bottom:0; flex:1;">
+              <img src="img/hmi.png" alt="HMI Panel"/>
+            </a>
           </div>
           <p class="project-desc">
             A full-stack simulation of a four-stage alcohol marker manufacturing line.

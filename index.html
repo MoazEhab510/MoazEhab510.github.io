@@ -645,6 +645,66 @@ body::after {
 .btn-green { color: var(--green); border-color: var(--green); }
 .btn-green:hover { background: var(--green); color: #000; box-shadow: 0 0 14px var(--green); }
 
+/* ── Art gallery ── */
+.art-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.art-thumb {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #ffffff18;
+  aspect-ratio: 1;
+  background: #0a001a;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.art-thumb:first-child {
+  grid-column: 1 / -1;
+  aspect-ratio: 16/7;
+}
+
+.art-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.art-thumb:hover { border-color: var(--pink); box-shadow: 0 0 14px #ff2d7844; }
+.art-thumb:hover img { transform: scale(1.05); }
+
+.art-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, #00000099);
+  padding: 8px 8px 6px;
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  color: var(--cyan);
+  text-shadow: 0 0 6px var(--cyan);
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.art-thumb:hover .art-label { opacity: 1; }
+
+.art-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  color: #ffffff22;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  letter-spacing: 1px;
+  flex-direction: column;
+  gap: 4px;
+}
+
 /* ── Skills grid ── */
 .skills-grid {
   display: grid;
@@ -967,8 +1027,8 @@ body::after {
         <!-- Space Shooter -->
         <div class="project-card">
           <div class="project-img" id="shooterImgWrap">
-            <img id="shooterImg" src="img/space-shooter.png"
-                 onerror="this.parentElement.innerHTML='[ SCREENSHOT COMING SOON ]'"
+            <img id="shooterImg" src="img/space-shooter.jpg"
+                 onerror="this.style.display='none'"
                  alt="Space Shooter"/>
           </div>
           <div class="project-title">SPACE SHOOTER</div>
@@ -1021,8 +1081,27 @@ body::after {
             <span class="hobby-icon">🎨</span>
             <div>
               <div style="font-size:13px; color:#c0c0d8;">Art &amp; Design</div>
-              <div style="font-size:11px; color:#555; margin-top:2px;">Digital art, UI design, and visual storytelling.</div>
+              <div style="font-size:11px; color:#555; margin-top:2px;">Graffiti, illustration, canvas — Montana cans &amp; markers.</div>
             </div>
+          </div>
+        </div>
+
+        <!-- Art gallery -->
+        <div class="art-gallery">
+          <div class="art-thumb">
+            <img src="img/art-vinyl.jpg" alt="Graffiti vinyl"
+                 onerror="this.parentElement.innerHTML='<div class=art-placeholder><span>🎨</span><span>ART COMING SOON</span></div>'"/>
+            <div class="art-label">GRAFFITI ON VINYL</div>
+          </div>
+          <div class="art-thumb">
+            <img src="img/art-graffiti.jpg" alt="Graffiti piece"
+                 onerror="this.parentElement.innerHTML='<div class=art-placeholder><span>🖌</span><span>ART COMING SOON</span></div>'"/>
+            <div class="art-label">GRAFFITI PIECE</div>
+          </div>
+          <div class="art-thumb">
+            <img src="img/art-face.jpg" alt="Character painting"
+                 onerror="this.parentElement.innerHTML='<div class=art-placeholder><span>🖊</span><span>ART COMING SOON</span></div>'"/>
+            <div class="art-label">CHARACTER ART</div>
           </div>
         </div>
 

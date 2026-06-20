@@ -145,7 +145,6 @@ body::after {
   box-shadow: inset 0 0 60px #00000088, -4px 0 30px #bf00ff22;
   position: relative;
   height: 100%;
-  max-height: 680px;
 }
 
 /* Metallic top screws (decorative) */
@@ -250,33 +249,25 @@ body::after {
   will-change: transform;
 }
 
-/* Base silver layer */
+/* Vinyl photo base */
 .cd-disc::before {
   content: '';
   position: absolute; inset: 0;
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 35% 35%,
-      #f0f0f0 0%, #d0d0d0 20%, #a0a0a0 45%, #707070 70%, #404040 100%
-    );
+  background: url('img/art-vinyl.jpg') center/cover no-repeat;
+  overflow: hidden;
 }
 
-/* Iridescent conic layer */
+/* Subtle gloss highlight on top */
 .cd-disc::after {
   content: '';
   position: absolute; inset: 0;
   border-radius: 50%;
-  background: conic-gradient(
-    from 0deg at 50% 50%,
-    #ff2d7888 0deg,
-    #ff990066 60deg,
-    #f0ff0055 120deg,
-    #00ff8866 180deg,
-    #00f5ff66 240deg,
-    #bf00ff66 300deg,
-    #ff2d7888 360deg
+  background: radial-gradient(circle at 35% 30%,
+    rgba(255,255,255,0.12) 0%,
+    transparent 55%
   );
-  mix-blend-mode: screen;
+  pointer-events: none;
 }
 
 /* Grooves */
@@ -313,8 +304,11 @@ body::after {
   top: 50%; left: 50%;
   font-family: var(--font-pixel);
   font-size: 11px;
-  color: rgba(255,255,255,0.75);
-  text-shadow: 0 0 6px rgba(0,245,255,0.6);
+  color: #fff;
+  text-shadow: 0 0 4px #000, 0 0 8px #000, 0 0 12px rgba(0,245,255,0.8);
+  background: rgba(0,0,0,0.45);
+  padding: 1px 5px;
+  border-radius: 3px;
   white-space: nowrap;
   transform-origin: 0 0;
   pointer-events: none;
@@ -424,7 +418,6 @@ body::after {
 .content-screen {
   flex: 1;
   height: 100%;
-  max-height: 680px;
   background: linear-gradient(160deg, #0a0020 0%, #060012 50%, #0d0025 100%);
   border: 1px solid #ffffff18;
   border-left: 2px solid var(--pink);

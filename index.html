@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Moaz Ehab — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+/* ════════════════════════════════════════════
+   ROOT & RESET
+════════════════════════════════════════════ */
+:root {
+  --pink:   #ff2d78;
+  --cyan:   #00f5ff;
+  --green:  #00ff88;
+  --yellow: #f0ff00;
+  --purple: #bf00ff;
+  --bg:     #06000f;
+  --panel:  #0d0020;
+  --metal:  #12002a;
+  --lcd:    #001a08;
+  --text:   #d0d0d0;
+  --font-pixel: 'VT323', monospace;
+  --font-mono:  'Share Tech Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  user-select: none;
+}
+
+/* ════════════════════════════════════════════
+   CRT SCANLINES + NOISE
+════════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,0,0,0.18) 3px,
+    rgba(0,0,0,0.18) 4px
+  );
+  animation: flicker 8s infinite;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 9998;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center,
+    transparent 60%,
+    rgba(0,0,0,0.55) 100%
+  );
+}
+
+@keyframes flicker {
+  0%,100% { opacity: 1; }
+  92%      { opacity: 1; }
+  93%      { opacity: 0.85; }
+  94%      { opacity: 1; }
+  96%      { opacity: 0.9; }
+  97%      { opacity: 1; }
+}
+
+/* ════════════════════════════════════════════
+   VHS HUD
+════════════════════════════════════════════ */
+.vhs-hud {
+  position: fixed; top: 0; left: 0; right: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 18px;
+  background: linear-gradient(90deg, #00000099, #0d002299, #00000099);
+  border-bottom: 1px solid #ffffff18;
+  z-index: 100;
+  font-family: var(--font-pixel);
+  font-size: 18px;
+}
+
+.vhs-brand {
+  color: var(--cyan);
+  text-shadow: 0 0 12px var(--cyan);
+  letter-spacing: 3px;
+}
+
+.vhs-rec {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--pink);
+  text-shadow: 0 0 8px var(--pink);
+  font-size: 20px;
+}
+
+.rec-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 0 0 8px var(--pink);
+  animation: blink 1.2s step-end infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.vhs-time {
+  color: var(--green);
+  font-size: 20px;
+  text-shadow: 0 0 8px var(--green);
+  letter-spacing: 2px;
+}
+
+/* ════════════════════════════════════════════
+   MAIN LAYOUT
+════════════════════════════════════════════ */
+.stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 50px 20px 20px;
+  gap: 0;
+}
+
+/* ════════════════════════════════════════════
+   CD PLAYER UNIT (left)
+════════════════════════════════════════════ */
+.cd-unit {
+  flex: 0 0 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(160deg, #1a0035 0%, #0d0020 50%, #120030 100%);
+  border: 1px solid #ffffff18;
+  border-right: none;
+  border-radius: 18px 0 0 18px;
+  padding: 18px 16px 16px;
+  box-shadow: inset 0 0 60px #00000088, -4px 0 30px #bf00ff22;
+  position: relative;
+  height: 100%;
+  max-height: 680px;
+}
+
+/* Metallic top screws (decorative) */
+.cd-unit::before {
+  content: '⊙ ⊙';
+  position: absolute; top: 8px; right: 12px;
+  font-size: 11px; color: #ffffff33;
+  letter-spacing: 8px;
+}
+
+/* Brand label */
+.unit-brand {
+  font-family: var(--font-pixel);
+  font-size: 22px;
+  color: var(--cyan);
+  text-shadow: 0 0 14px var(--cyan);
+  letter-spacing: 4px;
+  text-align: center;
+}
+
+.unit-sub {
+  font-size: 10px;
+  color: #ffffff44;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: -6px;
+}
+
+/* LCD screen */
+.lcd-screen {
+  width: 100%;
+  background: var(--lcd);
+  border: 1px solid #00ff4133;
+  border-radius: 6px;
+  padding: 8px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: inset 0 0 20px #00ff4111, 0 0 10px #00ff4122;
+}
+
+.lcd-track {
+  font-family: var(--font-pixel);
+  font-size: 26px;
+  color: #00ff41;
+  text-shadow: 0 0 10px #00ff41;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.lcd-name {
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  color: #00cc33;
+  text-shadow: 0 0 6px #00ff41;
+  text-align: right;
+  letter-spacing: 1px;
+  max-width: 160px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.lcd-bar {
+  width: 100%;
+  height: 3px;
+  background: #001a0a;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.lcd-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #00ff41, #00cc33);
+  box-shadow: 0 0 6px #00ff41;
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+/* ── CD disc area ── */
+.disc-area {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  flex-shrink: 0;
+}
+
+.disc-ring {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2a0050, #0f0020, #1a0040);
+  border: 2px solid #ffffff18;
+  box-shadow: 0 0 30px #8000ff33, inset 0 0 20px #00000066;
+}
+
+.cd-disc {
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.7s cubic-bezier(0.34, 1.2, 0.64, 1);
+  will-change: transform;
+}
+
+/* Base silver layer */
+.cd-disc::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 35%,
+      #f0f0f0 0%, #d0d0d0 20%, #a0a0a0 45%, #707070 70%, #404040 100%
+    );
+}
+
+/* Iridescent conic layer */
+.cd-disc::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    #ff2d7888 0deg,
+    #ff990066 60deg,
+    #f0ff0055 120deg,
+    #00ff8866 180deg,
+    #00f5ff66 240deg,
+    #bf00ff66 300deg,
+    #ff2d7888 360deg
+  );
+  mix-blend-mode: screen;
+}
+
+/* Grooves */
+.cd-grooves {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle at 50% 50%,
+    transparent 0%,
+    transparent 4%,
+    rgba(255,255,255,0.04) 4%,
+    rgba(255,255,255,0.04) 4.3%
+  );
+  pointer-events: none;
+}
+
+/* Center spindle hole */
+.cd-hole {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #111 40%, #2a2a2a 100%);
+  border: 1px solid #00000088;
+  box-shadow: 0 0 0 2px #ffffff22;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Segment labels (on the disc, counter-rotated by JS) */
+.cd-segment-label {
+  position: absolute;
+  top: 50%; left: 50%;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  color: rgba(255,255,255,0.75);
+  text-shadow: 0 0 6px rgba(0,245,255,0.6);
+  white-space: nowrap;
+  transform-origin: 0 0;
+  pointer-events: none;
+  z-index: 4;
+  letter-spacing: 1px;
+}
+
+/* Fixed needle / indicator at top of disc area */
+.needle {
+  position: absolute;
+  top: -8px; left: 50%;
+  transform: translateX(-50%);
+  width: 2px; height: 20px;
+  background: linear-gradient(to bottom, var(--pink), transparent);
+  box-shadow: 0 0 8px var(--pink);
+  z-index: 10;
+}
+
+.needle::before {
+  content: '';
+  position: absolute;
+  top: -4px; left: 50%;
+  transform: translateX(-50%);
+  width: 8px; height: 8px;
+  background: var(--pink);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--pink);
+}
+
+/* ── Track buttons ── */
+.track-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.track-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0a001a;
+  border: 1px solid #ffffff18;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #888;
+  position: relative;
+  overflow: hidden;
+}
+
+.track-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.track-btn:hover { border-color: var(--cyan); color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+.track-btn:hover::before { opacity: 1; }
+
+.track-btn.active {
+  border-color: var(--pink);
+  color: var(--pink);
+  text-shadow: 0 0 10px var(--pink);
+  box-shadow: 0 0 12px #ff2d7833, inset 0 0 12px #ff2d7811;
+}
+
+.track-num {
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  min-width: 28px;
+  opacity: 0.6;
+}
+.track-btn.active .track-num { opacity: 1; }
+
+/* ── Decorative controls ── */
+.player-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctrl-btn {
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  color: #ffffff44;
+  cursor: pointer;
+  padding: 4px 10px;
+  border: 1px solid #ffffff18;
+  border-radius: 4px;
+  background: #0a001a;
+  transition: all 0.2s;
+}
+
+.ctrl-btn:hover { color: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 8px var(--cyan33); }
+.ctrl-btn.playing { color: var(--green); border-color: var(--green); box-shadow: 0 0 8px #00ff8844; }
+
+/* ════════════════════════════════════════════
+   CONTENT SCREEN (right)
+════════════════════════════════════════════ */
+.content-screen {
+  flex: 1;
+  height: 100%;
+  max-height: 680px;
+  background: linear-gradient(160deg, #0a0020 0%, #060012 50%, #0d0025 100%);
+  border: 1px solid #ffffff18;
+  border-left: 2px solid var(--pink);
+  border-radius: 0 18px 18px 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 4px 0 30px #ff2d7822;
+  position: relative;
+}
+
+/* Glitch top bar on content screen */
+.screen-header {
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #ff2d7822, #00f5ff11, #00000044);
+  border-bottom: 1px solid #ffffff14;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.screen-title {
+  font-family: var(--font-pixel);
+  font-size: 22px;
+  color: var(--pink);
+  text-shadow: 0 0 14px var(--pink);
+  letter-spacing: 2px;
+}
+
+.screen-tag {
+  font-size: 11px;
+  color: var(--cyan);
+  text-shadow: 0 0 6px var(--cyan);
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+
+.screen-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pink) transparent;
+}
+
+.screen-body::-webkit-scrollbar { width: 4px; }
+.screen-body::-webkit-scrollbar-track { background: transparent; }
+.screen-body::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 2px; }
+
+/* ── Section panels ── */
+.section-panel {
+  display: none;
+  animation: panelIn 0.4s ease;
+}
+.section-panel.active { display: block; }
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateX(20px) skewX(-1deg); filter: blur(4px); }
+  to   { opacity: 1; transform: translateX(0) skewX(0); filter: blur(0); }
+}
+
+/* ── VHS glitch effect on enter ── */
+.glitch-enter {
+  animation: glitch 0.3s steps(1) !important;
+}
+
+@keyframes glitch {
+  0%   { transform: translateX(0)  skewX(0);    filter: hue-rotate(0deg) blur(0px);  }
+  15%  { transform: translateX(-4px) skewX(2deg); filter: hue-rotate(90deg) blur(2px); }
+  30%  { transform: translateX(4px)  skewX(-1deg); filter: hue-rotate(180deg) blur(1px); }
+  45%  { transform: translateX(0)   skewX(0);    filter: hue-rotate(0deg) blur(0px);  }
+  60%  { transform: translateX(-2px) skewX(1deg); filter: hue-rotate(270deg) blur(1px); }
+  100% { transform: translateX(0)   skewX(0);    filter: blur(0px);                  }
+}
+
+/* ════════════════════════════════════════════
+   SECTION CONTENT STYLES
+════════════════════════════════════════════ */
+.sec-heading {
+  font-family: var(--font-pixel);
+  font-size: 36px;
+  color: var(--cyan);
+  text-shadow: 0 0 20px var(--cyan);
+  letter-spacing: 3px;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+
+.sec-sub {
+  font-size: 11px;
+  color: var(--pink);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.sec-divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--pink), var(--cyan), transparent);
+  margin: 16px 0;
+  box-shadow: 0 0 6px var(--pink33);
+}
+
+.sec-text {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #b0b0c0;
+  margin-bottom: 14px;
+}
+
+.highlight { color: var(--cyan); text-shadow: 0 0 6px var(--cyan); }
+.highlight-pink { color: var(--pink); text-shadow: 0 0 6px var(--pink); }
+
+/* ── Project card ── */
+.project-card {
+  background: linear-gradient(135deg, #12002a, #0a0018);
+  border: 1px solid #ffffff18;
+  border-left: 3px solid var(--cyan);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.project-card:hover {
+  border-left-color: var(--pink);
+  box-shadow: 0 0 20px #ff2d7822;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 60px; height: 60px;
+  background: radial-gradient(circle, var(--cyan) 0%, transparent 70%);
+  opacity: 0.06;
+}
+
+.project-img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ffffff18;
+  margin-bottom: 12px;
+  background: #0a001a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff22;
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  overflow: hidden;
+}
+
+.project-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.project-title {
+  font-family: var(--font-pixel);
+  font-size: 22px;
+  color: var(--yellow);
+  text-shadow: 0 0 10px var(--yellow);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.project-desc {
+  font-size: 12px;
+  color: #9090a8;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+
+.tech-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: 10px;
+}
+
+.tag {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  border: 1px solid;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.tag-cyan  { color: var(--cyan);   border-color: var(--cyan);   background: #00f5ff11; }
+.tag-pink  { color: var(--pink);   border-color: var(--pink);   background: #ff2d7811; }
+.tag-green { color: var(--green);  border-color: var(--green);  background: #00ff8811; }
+.tag-yellow{ color: var(--yellow); border-color: var(--yellow); background: #f0ff0011; }
+
+.project-links { display: flex; gap: 10px; }
+
+.btn-link {
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  padding: 4px 14px;
+  border-radius: 4px;
+  border: 1px solid;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.btn-cyan  { color: var(--cyan);  border-color: var(--cyan);  }
+.btn-cyan:hover  { background: var(--cyan);  color: #000; box-shadow: 0 0 14px var(--cyan);  }
+.btn-pink  { color: var(--pink);  border-color: var(--pink);  }
+.btn-pink:hover  { background: var(--pink);  color: #fff; box-shadow: 0 0 14px var(--pink);  }
+.btn-green { color: var(--green); border-color: var(--green); }
+.btn-green:hover { background: var(--green); color: #000; box-shadow: 0 0 14px var(--green); }
+
+/* ── Skills grid ── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.skill-chip {
+  background: #0a0018;
+  border: 1px solid #ffffff18;
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
+}
+
+.skill-chip:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 10px #00f5ff22;
+}
+
+.skill-icon { font-size: 20px; }
+
+.skill-name {
+  font-size: 11px;
+  color: #a0a0c0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hobby-list { display: flex; flex-direction: column; gap: 8px; }
+
+.hobby-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  background: #0a001a;
+  border: 1px solid #ffffff12;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #a0a0c0;
+  transition: all 0.2s;
+}
+
+.hobby-item:hover { border-color: var(--pink); color: var(--pink); box-shadow: 0 0 10px #ff2d7822; }
+.hobby-icon { font-size: 22px; }
+
+/* ── Contact ── */
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: #0a001a;
+  border: 1px solid #ffffff12;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.contact-item:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 16px #00f5ff22;
+}
+
+.contact-icon { font-size: 24px; }
+
+.contact-label {
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  color: #666;
+  letter-spacing: 1px;
+  display: block;
+}
+
+.contact-value {
+  font-size: 13px;
+  color: var(--cyan);
+  text-shadow: 0 0 6px var(--cyan);
+  letter-spacing: 1px;
+}
+
+/* ── Final project big card ── */
+.final-badge {
+  display: inline-block;
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  color: var(--yellow);
+  border: 1px solid var(--yellow);
+  padding: 2px 12px;
+  border-radius: 3px;
+  text-shadow: 0 0 8px var(--yellow);
+  box-shadow: 0 0 8px #f0ff0022;
+  margin-bottom: 14px;
+  letter-spacing: 2px;
+  animation: pulseBadge 2s ease-in-out infinite;
+}
+
+@keyframes pulseBadge {
+  0%,100% { box-shadow: 0 0 8px #f0ff0022; }
+  50%      { box-shadow: 0 0 18px #f0ff0066; }
+}
+
+/* ════════════════════════════════════════════
+   ABOUT ME — glitch name
+════════════════════════════════════════════ */
+.glitch-name {
+  font-family: var(--font-pixel);
+  font-size: 52px;
+  color: var(--cyan);
+  text-shadow: 0 0 20px var(--cyan);
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+  animation: textGlitch 6s infinite;
+}
+
+@keyframes textGlitch {
+  0%,90%,100% { text-shadow: 0 0 20px var(--cyan); transform: none; }
+  91%  { text-shadow: -3px 0 var(--pink), 3px 0 var(--green); transform: skewX(3deg); }
+  92%  { text-shadow: 3px 0 var(--pink), -3px 0 var(--green); transform: skewX(-2deg); }
+  93%  { text-shadow: 0 0 20px var(--cyan); transform: none; }
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.stat-box {
+  background: #0a001a;
+  border: 1px solid #ffffff14;
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+}
+
+.stat-num {
+  font-family: var(--font-pixel);
+  font-size: 32px;
+  color: var(--pink);
+  text-shadow: 0 0 12px var(--pink);
+  display: block;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: #666;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ════════════════════════════════════════════
+   BOTTOM TIMESTAMP
+════════════════════════════════════════════ */
+.vhs-timestamp {
+  position: fixed;
+  bottom: 12px; left: 18px;
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  color: var(--green);
+  text-shadow: 0 0 8px var(--green);
+  opacity: 0.7;
+  z-index: 100;
+  letter-spacing: 2px;
+}
+
+.vhs-bottom-right {
+  position: fixed;
+  bottom: 12px; right: 18px;
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  color: #ffffff33;
+  z-index: 100;
+  letter-spacing: 2px;
+}
+
+/* ════════════════════════════════════════════
+   SPINNING ANIMATION (idle)
+════════════════════════════════════════════ */
+.cd-spin {
+  animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: var(--cd-base-transform, rotate(0deg)) rotate(0deg); }
+  to   { transform: var(--cd-base-transform, rotate(0deg)) rotate(360deg); }
+}
+</style>
+</head>
+<body>
+
+<!-- VHS HUD bar -->
+<div class="vhs-hud">
+  <div class="vhs-brand">◈ MOAZ.EHAB ◈</div>
+  <div class="vhs-rec"><div class="rec-dot"></div> REC</div>
+  <div class="vhs-time" id="vhsTime">00:00:00</div>
+</div>
+
+<!-- Main stage -->
+<div class="stage">
+
+  <!-- ══ CD PLAYER UNIT ══ -->
+  <div class="cd-unit">
+
+    <div class="unit-brand">PORTFOLIO</div>
+    <div class="unit-sub">DIGITAL DISC SYSTEM</div>
+
+    <!-- LCD screen -->
+    <div class="lcd-screen">
+      <div>
+        <div class="lcd-track" id="lcdTrack">01</div>
+        <div class="lcd-bar"><div class="lcd-progress" id="lcdBar" style="width:20%"></div></div>
+      </div>
+      <div class="lcd-name" id="lcdName">ABOUT ME</div>
+    </div>
+
+    <!-- CD disc -->
+    <div class="disc-area">
+      <div class="disc-ring"></div>
+      <div class="cd-disc" id="cdDisc">
+        <div class="cd-grooves"></div>
+        <!-- Segment labels (counter-rotated by JS) -->
+        <div class="cd-segment-label" data-idx="0">◆ ABOUT ME</div>
+        <div class="cd-segment-label" data-idx="1">◆ PROJECTS</div>
+        <div class="cd-segment-label" data-idx="2">◆ HOBBIES</div>
+        <div class="cd-segment-label" data-idx="3">◆ FINAL</div>
+        <div class="cd-segment-label" data-idx="4">◆ CONTACT</div>
+        <div class="cd-hole"></div>
+      </div>
+      <div class="needle"></div>
+    </div>
+
+    <!-- Decorative controls -->
+    <div class="player-controls">
+      <div class="ctrl-btn" onclick="prevSection()">◄◄</div>
+      <div class="ctrl-btn playing" id="playBtn">▶ PLAY</div>
+      <div class="ctrl-btn" onclick="nextSection()">▶▶</div>
+    </div>
+
+    <!-- Track buttons -->
+    <div class="track-buttons">
+      <div class="track-btn active" data-section="0" onclick="selectSection(0)">
+        <span class="track-num">01</span><span>About Me</span>
+      </div>
+      <div class="track-btn" data-section="1" onclick="selectSection(1)">
+        <span class="track-num">02</span><span>Recent Projects</span>
+      </div>
+      <div class="track-btn" data-section="2" onclick="selectSection(2)">
+        <span class="track-num">03</span><span>Hobbies &amp; Skills</span>
+      </div>
+      <div class="track-btn" data-section="3" onclick="selectSection(3)">
+        <span class="track-num">04</span><span>Final Project</span>
+      </div>
+      <div class="track-btn" data-section="4" onclick="selectSection(4)">
+        <span class="track-num">05</span><span>Contact</span>
+      </div>
+    </div>
+
+  </div><!-- /cd-unit -->
+
+  <!-- ══ CONTENT SCREEN ══ -->
+  <div class="content-screen">
+    <div class="screen-header">
+      <div class="screen-title" id="screenTitle">ABOUT ME</div>
+      <div class="screen-tag" id="screenTag">TRACK 01 / 05 ■■■□□</div>
+    </div>
+
+    <div class="screen-body">
+
+      <!-- ── SECTION 01: About Me ── -->
+      <div class="section-panel active" id="sec-0">
+        <div class="glitch-name">MOAZ<br>EHAB</div>
+        <div class="sec-sub">◈ Applied Mechatronics · SRH University · Germany</div>
+        <div class="sec-divider"></div>
+        <p class="sec-text">
+          I'm a <span class="highlight">mechatronics engineering student</span> at SRH University in Germany,
+          working at the intersection of hardware, software, and creative media.
+          I build industrial simulations, games, and tools — then film and design the world around me.
+        </p>
+        <p class="sec-text">
+          From a <span class="highlight-pink">Python-powered production line</span> that talks to Grafana dashboards
+          in real time, to a 2D space shooter, to framerates I chase with a camera — I'm driven by projects
+          that feel alive.
+        </p>
+        <div class="about-stats">
+          <div class="stat-box">
+            <span class="stat-num">2+</span>
+            <span class="stat-label">Projects</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">5+</span>
+            <span class="stat-label">Tech Stack</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">1</span>
+            <span class="stat-label">Passion</span>
+          </div>
+        </div>
+        <div class="sec-divider"></div>
+        <p class="sec-text" style="font-size:11px; color:#555; letter-spacing:1px;">
+          ▶ USE THE TRACK BUTTONS TO NAVIGATE — OR CLICK ▶▶ TO ADVANCE
+        </p>
+      </div>
+
+      <!-- ── SECTION 02: Recent Projects ── -->
+      <div class="section-panel" id="sec-1">
+        <div class="sec-heading">PROJECTS</div>
+        <div class="sec-sub">◈ Recent work</div>
+        <div class="sec-divider"></div>
+
+        <!-- Space Shooter -->
+        <div class="project-card">
+          <div class="project-img" id="shooterImgWrap">
+            <img id="shooterImg" src="img/space-shooter.png"
+                 onerror="this.parentElement.innerHTML='[ SCREENSHOT COMING SOON ]'"
+                 alt="Space Shooter"/>
+          </div>
+          <div class="project-title">SPACE SHOOTER</div>
+          <p class="project-desc">
+            A fast-paced 2D arcade space shooter built with Python and Pygame.
+            Navigate your ship through enemy waves, dodge incoming fire, and push
+            for a high score. Fully playable from the terminal.
+          </p>
+          <div class="tech-tags">
+            <span class="tag tag-cyan">Python</span>
+            <span class="tag tag-pink">Pygame</span>
+            <span class="tag tag-green">2D Game</span>
+          </div>
+          <div class="project-links">
+            <a class="btn-link btn-cyan" href="https://github.com/MoazEhab510/space-shooter" target="_blank">⌗ GitHub</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── SECTION 03: Hobbies & Skills ── -->
+      <div class="section-panel" id="sec-2">
+        <div class="sec-heading">HOBBIES</div>
+        <div class="sec-sub">◈ &amp; Skills</div>
+        <div class="sec-divider"></div>
+
+        <div class="hobby-list" style="margin-bottom:20px;">
+          <div class="hobby-item">
+            <span class="hobby-icon">🎬</span>
+            <div>
+              <div style="font-size:13px; color:#c0c0d8;">Filmmaking &amp; Videography</div>
+              <div style="font-size:11px; color:#555; margin-top:2px;">Shooting, editing, and directing short films &amp; content.</div>
+            </div>
+          </div>
+          <div class="hobby-item">
+            <span class="hobby-icon">📷</span>
+            <div>
+              <div style="font-size:13px; color:#c0c0d8;">Photography</div>
+              <div style="font-size:11px; color:#555; margin-top:2px;">Capturing moments — street, portrait, and product.</div>
+            </div>
+          </div>
+          <div class="hobby-item">
+            <span class="hobby-icon">🎮</span>
+            <div>
+              <div style="font-size:13px; color:#c0c0d8;">Gaming</div>
+              <div style="font-size:11px; color:#555; margin-top:2px;">Competitive and indie — also what inspired the space shooter.</div>
+            </div>
+          </div>
+          <div class="hobby-item">
+            <span class="hobby-icon">🎨</span>
+            <div>
+              <div style="font-size:13px; color:#c0c0d8;">Art &amp; Design</div>
+              <div style="font-size:11px; color:#555; margin-top:2px;">Digital art, UI design, and visual storytelling.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-divider"></div>
+        <div class="sec-sub" style="margin-bottom:12px;">◈ Technical skills</div>
+        <div class="skills-grid">
+          <div class="skill-chip"><span class="skill-icon">🐍</span><span class="skill-name">Python · Flask · Pygame</span></div>
+          <div class="skill-chip"><span class="skill-icon">🐳</span><span class="skill-name">Docker Compose</span></div>
+          <div class="skill-chip"><span class="skill-icon">📊</span><span class="skill-name">Grafana · InfluxDB</span></div>
+          <div class="skill-chip"><span class="skill-icon">🌐</span><span class="skill-name">HTML · CSS · JS</span></div>
+          <div class="skill-chip"><span class="skill-icon">📷</span><span class="skill-name">Videography · Photo</span></div>
+          <div class="skill-chip"><span class="skill-icon">🔧</span><span class="skill-name">Git · GitHub</span></div>
+        </div>
+      </div>
+
+      <!-- ── SECTION 04: Final Project ── -->
+      <div class="section-panel" id="sec-3">
+        <div class="final-badge">★ CAPSTONE PROJECT</div>
+        <div class="sec-heading">ALCOHOL MARKER<br>PRODUCTION LINE</div>
+        <div class="sec-sub">◈ SRH Advanced Programming · June 2026</div>
+        <div class="sec-divider"></div>
+
+        <div class="project-card" style="border-left-color: var(--yellow);">
+          <div class="project-img">
+            <img src="img/grafana.png"
+                 onerror="this.style.display='none'"
+                 alt="Grafana Dashboard" style="width:100%; height:100%; object-fit:cover; border-radius:3px;"/>
+          </div>
+          <p class="project-desc">
+            A full-stack simulation of a four-stage alcohol marker manufacturing line.
+            A <span class="highlight">Python/Flask</span> backend runs the finite-state machine (IDLE → RUNNING → FAULTED),
+            writing every cycle to <span class="highlight">InfluxDB</span> in real time.
+            An HTML <span class="highlight">HMI</span> gives operators Start / Stop / Reset controls and live fault display.
+            A <span class="highlight">Grafana</span> dashboard shows machine state, part counts, ethanol concentration,
+            and temperature — all auto-provisioned, no manual setup required.
+          </p>
+          <div class="tech-tags">
+            <span class="tag tag-cyan">Python · Flask</span>
+            <span class="tag tag-pink">InfluxDB</span>
+            <span class="tag tag-green">Grafana</span>
+            <span class="tag tag-yellow">Docker Compose</span>
+          </div>
+          <div class="project-links">
+            <a class="btn-link btn-cyan"  href="https://github.com/MoazEhab510/alcohol-marker-sim" target="_blank">⌗ GitHub</a>
+            <a class="btn-link btn-pink"  href="https://moazehab510.github.io/alcohol-marker-sim/" target="_blank">◈ Live Site</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION 05: Contact ── -->
+      <div class="section-panel" id="sec-4">
+        <div class="sec-heading">CONTACT</div>
+        <div class="sec-sub">◈ Let's connect</div>
+        <div class="sec-divider"></div>
+
+        <a class="contact-item" href="mailto:moazzehab510@gmail.com">
+          <span class="contact-icon">✉</span>
+          <div>
+            <span class="contact-label">EMAIL</span>
+            <span class="contact-value">moazzehab510@gmail.com</span>
+          </div>
+        </a>
+
+        <a class="contact-item" href="https://github.com/MoazEhab510" target="_blank">
+          <span class="contact-icon">⌗</span>
+          <div>
+            <span class="contact-label">GITHUB</span>
+            <span class="contact-value">github.com/MoazEhab510</span>
+          </div>
+        </a>
+
+        <a class="contact-item" href="https://moazehab510.github.io/alcohol-marker-sim/" target="_blank">
+          <span class="contact-icon">◈</span>
+          <div>
+            <span class="contact-label">PROJECT SITE</span>
+            <span class="contact-value">moazehab510.github.io/alcohol-marker-sim</span>
+          </div>
+        </a>
+
+        <div class="sec-divider"></div>
+        <p class="sec-text" style="font-size:11px; text-align:center; color:#555; letter-spacing:2px;">
+          ◆ BASED IN GERMANY · OPEN TO OPPORTUNITIES ◆
+        </p>
+      </div>
+
+    </div><!-- /screen-body -->
+  </div><!-- /content-screen -->
+
+</div><!-- /stage -->
+
+<!-- VHS bottom chrome -->
+<div class="vhs-timestamp" id="vhsStamp">06-20-2026 &nbsp; 00:00:00</div>
+<div class="vhs-bottom-right">MOAZ.EHAB.PORTFOLIO // v1.0</div>
+
+<script>
+/* ════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════ */
+const SECTIONS = [
+  { track: '01', name: 'ABOUT ME',         short: 'ABOUT ME'  },
+  { track: '02', name: 'RECENT PROJECTS',  short: 'PROJECTS'  },
+  { track: '03', name: 'HOBBIES & SKILLS', short: 'HOBBIES'   },
+  { track: '04', name: 'FINAL PROJECT',    short: 'FINAL'     },
+  { track: '05', name: 'CONTACT',          short: 'CONTACT'   },
+];
+
+const BARS = ['■□□□□','■■□□□','■■■□□','■■■■□','■■■■■'];
+const ANGLE_STEP = 360 / SECTIONS.length; // 72°
+
+let currentSection = 0;
+let cdRotation = 0;
+
+const cdDisc    = document.getElementById('cdDisc');
+const lcdTrack  = document.getElementById('lcdTrack');
+const lcdName   = document.getElementById('lcdName');
+const lcdBar    = document.getElementById('lcdBar');
+const screenTitle = document.getElementById('screenTitle');
+const screenTag   = document.getElementById('screenTag');
+const labels    = document.querySelectorAll('.cd-segment-label');
+const panels    = document.querySelectorAll('.section-panel');
+const trackBtns = document.querySelectorAll('.track-btn');
+
+/* Position segment labels around the disc */
+function positionLabels() {
+  const R = 85; // distance from center in px (disc is 264px, half=132px)
+  labels.forEach((el, i) => {
+    const angleDeg = i * ANGLE_STEP; // 0, 72, 144, 216, 288
+    const angleRad = (angleDeg - 90) * Math.PI / 180;
+    const x = R * Math.cos(angleRad);
+    const y = R * Math.sin(angleRad);
+    el.style.transform =
+      `translate(calc(${x}px - 50%), calc(${y}px - 50%)) rotate(${angleDeg}deg)`;
+  });
+}
+
+/* Counter-rotate labels so text stays upright */
+function updateLabels(rotation) {
+  labels.forEach((el, i) => {
+    const baseAngleDeg = i * ANGLE_STEP;
+    const angleRad = (baseAngleDeg - 90) * Math.PI / 180;
+    const R = 85;
+    const x = R * Math.cos(angleRad);
+    const y = R * Math.sin(angleRad);
+    el.style.transform =
+      `translate(calc(${x}px - 50%), calc(${y}px - 50%)) rotate(${baseAngleDeg - rotation}deg)`;
+  });
+}
+
+/* ════════════════════════════════════════════
+   SELECT SECTION
+════════════════════════════════════════════ */
+function selectSection(idx) {
+  if (idx === currentSection) return;
+
+  // Rotate disc so section idx ends up at "12 o'clock"
+  // Section i is at angle i * 72° on the disc.
+  // To bring it to 0° (top), we need the disc to rotate by -(i * 72°)
+  // We accumulate rotation so we always go the shortest way.
+  const targetBase = -(idx * ANGLE_STEP);
+  let delta = targetBase - (cdRotation % 360);
+  if (delta > 180)  delta -= 360;
+  if (delta < -180) delta += 360;
+
+  cdRotation += delta;
+  cdDisc.style.transition = 'transform 0.65s cubic-bezier(0.34, 1.2, 0.64, 1)';
+  cdDisc.style.transform = `rotate(${cdRotation}deg)`;
+  updateLabels(cdRotation);
+
+  // Update LCD
+  lcdTrack.textContent = SECTIONS[idx].track;
+  lcdName.textContent  = SECTIONS[idx].short;
+  lcdBar.style.width   = `${(idx + 1) * 20}%`;
+
+  // Update screen header
+  screenTitle.textContent = SECTIONS[idx].name;
+  screenTag.textContent   = `TRACK ${SECTIONS[idx].track} / 05 ${BARS[idx]}`;
+
+  // Update track buttons
+  trackBtns.forEach((btn, i) => {
+    btn.classList.toggle('active', i === idx);
+  });
+
+  // Hide current panel, show new one with glitch effect
+  panels[currentSection].classList.remove('active');
+  const nextPanel = panels[idx];
+  nextPanel.classList.add('active', 'glitch-enter');
+  setTimeout(() => nextPanel.classList.remove('glitch-enter'), 400);
+
+  currentSection = idx;
+}
+
+function nextSection() {
+  selectSection((currentSection + 1) % SECTIONS.length);
+}
+
+function prevSection() {
+  selectSection((currentSection - 1 + SECTIONS.length) % SECTIONS.length);
+}
+
+/* ════════════════════════════════════════════
+   CLOCK
+════════════════════════════════════════════ */
+function updateClock() {
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const t = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  const d = `${pad(now.getMonth()+1)}-${pad(now.getDate())}-${now.getFullYear()}`;
+  document.getElementById('vhsTime').textContent  = t;
+  document.getElementById('vhsStamp').innerHTML   = `${d} &nbsp; ${t}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+/* ════════════════════════════════════════════
+   DRAG TO ROTATE THE CD
+════════════════════════════════════════════ */
+let dragStart = null;
+let dragRotStart = 0;
+let isDragging = false;
+
+cdDisc.addEventListener('mousedown', e => {
+  isDragging = true;
+  dragStart = { x: e.clientX, y: e.clientY };
+  dragRotStart = cdRotation;
+  cdDisc.style.transition = 'none';
+  e.preventDefault();
+});
+
+window.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  const dx = e.clientX - dragStart.x;
+  cdRotation = dragRotStart + dx * 0.5;
+  cdDisc.style.transform = `rotate(${cdRotation}deg)`;
+  updateLabels(cdRotation);
+});
+
+window.addEventListener('mouseup', () => {
+  if (!isDragging) return;
+  isDragging = false;
+  // Snap to nearest section
+  const nearest = Math.round(-cdRotation / ANGLE_STEP);
+  const idx = ((nearest % SECTIONS.length) + SECTIONS.length) % SECTIONS.length;
+  cdDisc.style.transition = 'transform 0.4s ease';
+  selectSection(idx);
+});
+
+/* Touch support */
+cdDisc.addEventListener('touchstart', e => {
+  isDragging = true;
+  dragStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  dragRotStart = cdRotation;
+  cdDisc.style.transition = 'none';
+}, { passive: true });
+
+window.addEventListener('touchmove', e => {
+  if (!isDragging) return;
+  const dx = e.touches[0].clientX - dragStart.x;
+  cdRotation = dragRotStart + dx * 0.5;
+  cdDisc.style.transform = `rotate(${cdRotation}deg)`;
+  updateLabels(cdRotation);
+}, { passive: true });
+
+window.addEventListener('touchend', () => {
+  if (!isDragging) return;
+  isDragging = false;
+  const nearest = Math.round(-cdRotation / ANGLE_STEP);
+  const idx = ((nearest % SECTIONS.length) + SECTIONS.length) % SECTIONS.length;
+  cdDisc.style.transition = 'transform 0.4s ease';
+  selectSection(idx);
+});
+
+/* ════════════════════════════════════════════
+   KEYBOARD NAV
+════════════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSection();
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prevSection();
+  if (e.key >= '1' && e.key <= '5') selectSection(parseInt(e.key) - 1);
+});
+
+/* ════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════ */
+positionLabels();
+</script>
+</body>
+</html>

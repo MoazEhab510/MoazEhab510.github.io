@@ -130,23 +130,37 @@ body::after {
 
 /* ── Two-mode layout ── */
 
-/* CD mode: content screen hidden */
-.content-screen {
-  display: none;
+/* CD mode: full screen, no content */
+.stage:not(.playing) {
+  justify-content: center;
 }
 
-/* CD unit: full rounded border when standalone */
-.cd-unit {
+.stage:not(.playing) .cd-unit {
+  flex: 1;
+  max-width: 560px;
   border-radius: 18px !important;
-  border-right: 1px solid #ffffff18 !important;
+  border: 1px solid #ffffff18 !important;
 }
 
-/* Playing mode: flip visibility */
-.stage.playing .content-screen {
-  display: flex;
+/* Make the disc bigger when full-screen */
+.stage:not(.playing) .disc-area {
+  width: 360px;
+  height: 360px;
 }
+
+.stage:not(.playing) .cd-disc {
+  inset: 10px;
+}
+
+/* Playing mode */
 .stage.playing .cd-unit {
   display: none;
+}
+
+.stage.playing .content-screen {
+  flex: 1;
+  border-radius: 18px;
+  border: 1px solid #ffffff18;
 }
 
 /* Back button */
@@ -168,13 +182,6 @@ body::after {
   color: #000;
   box-shadow: 0 0 14px var(--pink);
   text-shadow: none;
-}
-
-/* Content screen full width when playing */
-.stage.playing .content-screen {
-  flex: 1;
-  border-radius: 18px;
-  border-left: 1px solid #ffffff18;
 }
 
 /* ════════════════════════════════════════════

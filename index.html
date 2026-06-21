@@ -128,6 +128,55 @@ body::after {
   gap: 0;
 }
 
+/* ── Two-mode layout ── */
+
+/* CD mode: content screen hidden */
+.content-screen {
+  display: none;
+}
+
+/* CD unit: full rounded border when standalone */
+.cd-unit {
+  border-radius: 18px !important;
+  border-right: 1px solid #ffffff18 !important;
+}
+
+/* Playing mode: flip visibility */
+.stage.playing .content-screen {
+  display: flex;
+}
+.stage.playing .cd-unit {
+  display: none;
+}
+
+/* Back button */
+.btn-back {
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  color: var(--pink);
+  background: transparent;
+  border: 1px solid var(--pink);
+  border-radius: 4px;
+  padding: 3px 14px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  text-shadow: 0 0 6px var(--pink);
+}
+.btn-back:hover {
+  background: var(--pink);
+  color: #000;
+  box-shadow: 0 0 14px var(--pink);
+  text-shadow: none;
+}
+
+/* Content screen full width when playing */
+.stage.playing .content-screen {
+  flex: 1;
+  border-radius: 18px;
+  border-left: 1px solid #ffffff18;
+}
+
 /* ════════════════════════════════════════════
    CD PLAYER UNIT (left)
 ════════════════════════════════════════════ */
@@ -957,7 +1006,7 @@ body::after {
     <!-- Decorative controls -->
     <div class="player-controls">
       <div class="ctrl-btn" onclick="prevSection()">◄◄</div>
-      <div class="ctrl-btn playing" id="playBtn">▶ PLAY</div>
+      <div class="ctrl-btn playing" id="playBtn" onclick="playSection()">▶ PLAY</div>
       <div class="ctrl-btn" onclick="nextSection()">▶▶</div>
     </div>
 
@@ -985,7 +1034,10 @@ body::after {
   <!-- ══ CONTENT SCREEN ══ -->
   <div class="content-screen">
     <div class="screen-header">
-      <div class="screen-title" id="screenTitle">ABOUT ME</div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button class="btn-back" onclick="goBack()">◄ BACK</button>
+        <div class="screen-title" id="screenTitle">ABOUT ME</div>
+      </div>
       <div class="screen-tag" id="screenTag">TRACK 01 / 05 ■■■□□</div>
     </div>
 
@@ -1226,15 +1278,16 @@ const ANGLE_STEP = 360 / SECTIONS.length; // 72°
 let currentSection = 0;
 let cdRotation = 0;
 
-const cdDisc    = document.getElementById('cdDisc');
-const lcdTrack  = document.getElementById('lcdTrack');
-const lcdName   = document.getElementById('lcdName');
-const lcdBar    = document.getElementById('lcdBar');
+const stage       = document.querySelector('.stage');
+const cdDisc      = document.getElementById('cdDisc');
+const lcdTrack    = document.getElementById('lcdTrack');
+const lcdName     = document.getElementById('lcdName');
+const lcdBar      = document.getElementById('lcdBar');
 const screenTitle = document.getElementById('screenTitle');
 const screenTag   = document.getElementById('screenTag');
-const labels    = document.querySelectorAll('.cd-segment-label');
-const panels    = document.querySelectorAll('.section-panel');
-const trackBtns = document.querySelectorAll('.track-btn');
+const labels      = document.querySelectorAll('.cd-segment-label');
+const panels      = document.querySelectorAll('.section-panel');
+const trackBtns   = document.querySelectorAll('.track-btn');
 
 /* Position segment labels around the disc */
 function positionLabels() {
@@ -1266,7 +1319,10 @@ function updateLabels(rotation) {
    SELECT SECTION
 ════════════════════════════════════════════ */
 function selectSection(idx) {
-  if (idx === currentSection) return;
+  if (idx === currentSection && !stage.classList.contains('playing')) {
+    // In CD mode re-clicking same track is a no-op for rotation, but still allow PLAY
+    return;
+  }
 
   // Rotate disc so section idx ends up at "12 o'clock"
   // Section i is at angle i * 72° on the disc.
@@ -1306,12 +1362,29 @@ function selectSection(idx) {
 }
 
 function nextSection() {
-  selectSection((currentSection + 1) % SECTIONS.length);
+  const next = (currentSection + 1) % SECTIONS.length;
+  selectSection(next);
 }
 
 function prevSection() {
-  selectSection((currentSection - 1 + SECTIONS.length) % SECTIONS.length);
+  const prev = (currentSection - 1 + SECTIONS.length) % SECTIONS.length;
+  selectSection(prev);
 }
+
+/* ════════════════════════════════════════════
+   TWO-MODE NAVIGATION
+════════════════════════════════════════════ */
+function playSection() {
+  // Show content for the currently selected section
+  panels.forEach((p, i) => p.classList.toggle('active', i === currentSection));
+  stage.classList.add('playing');
+}
+
+function goBack() {
+  stage.classList.remove('playing');
+}
+
+/* In CD mode, track buttons select but don't play — clicking PLAY launches content */
 
 /* ════════════════════════════════════════════
    CLOCK

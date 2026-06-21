@@ -411,7 +411,7 @@ body::after {
   border: 1px solid #ffffff18;
   border-radius: 6px;
   padding: 0 20px;
-  height: 200px;
+  height: 72px;
   cursor: pointer;
   transition: all 0.2s;
   font-family: var(--font-mono);
@@ -421,18 +421,6 @@ body::after {
   overflow: hidden;
 }
 
-/* Banner image layer — shows behind text when set */
-.track-btn .btn-banner {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: fill;
-  opacity: 0.6;
-  border-radius: 6px;
-  pointer-events: none;
-  transition: opacity 0.2s;
-}
-.track-btn:hover .btn-banner { opacity: 0.85; }
-.track-btn.active .btn-banner { opacity: 0.75; }
 
 .track-btn::before {
   content: '';
@@ -1043,19 +1031,15 @@ body::after {
     <!-- Track buttons -->
     <div class="track-buttons">
       <div class="track-btn active" data-section="0" onclick="selectSection(0)">
-        <img class="btn-banner" src="img/banner-01.jpg" alt=""/>
         <span class="track-num">01</span><span>About Me</span>
       </div>
       <div class="track-btn" data-section="1" onclick="selectSection(1)">
-        <img class="btn-banner" src="img/banner-02.jpg" alt=""/>
         <span class="track-num">02</span><span>Recent Projects</span>
       </div>
       <div class="track-btn" data-section="2" onclick="selectSection(2)">
-        <img class="btn-banner" src="img/banner-03.jpg" alt=""/>
         <span class="track-num">03</span><span>Hobbies &amp; Skills</span>
       </div>
       <div class="track-btn" data-section="3" onclick="selectSection(3)">
-        <img class="btn-banner" src="img/banner-04.jpg" alt=""/>
         <span class="track-num">04</span><span>Final Project</span>
       </div>
       <div class="track-btn" data-section="4" onclick="selectSection(4)">
